@@ -1,0 +1,21 @@
+{
+  "id" : "2bc0a557-ce97-42cb-9508-34ad36618112",
+  "request" : {
+    "urlPath" : "/v2/trigger",
+    "method" : "GET",
+    "queryParameters" : {
+      "name" : {
+        "matches" : "[a-zA-z0-9]+"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"trigger\":\"update\"},{\"trigger\":\"delete\"}]",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "transformers" : [ "response-template" ]
+  },
+  "uuid" : "2bc0a557-ce97-42cb-9508-34ad36618112"
+}
