@@ -1,5 +1,5 @@
 {
-  "id" : "5aff18a6-ee53-42ea-aef0-a6d76fc63a0e",
+  "id" : "43d17bb8-0064-4d7a-a0c8-5b2f32d4c686",
   "request" : {
     "urlPath" : "/v2/trigger",
     "method" : "GET",
@@ -17,5 +17,5 @@
     },
     "transformers" : [ "response-template" ]
   },
-  "uuid" : "5aff18a6-ee53-42ea-aef0-a6d76fc63a0e"
+  "uuid" : "43d17bb8-0064-4d7a-a0c8-5b2f32d4c686"
 }
