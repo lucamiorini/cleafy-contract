@@ -1,0 +1,184 @@
+description: Should get all rules
+request:
+  url: /v1/rule
+  queryParameters:
+    only-enabled: false
+  method: GET
+  headers:
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+  matchers:
+    headers:
+      - key: Authorization
+        regex: "Bearer [A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+"
+
+response:
+  status: 200
+  headers:
+    Content-Type: application/json
+  body:
+    [
+      {
+        "version": "4.12.0-10-bugfix_CI-3410-rules-entity-threat-trigger-on_create-doen-t-trigger-with-threats-created-via-api-966ec02a2",
+        "id": "d5cc5f5f-5d7b-4950-bc78-d8e9e9d5fe89",
+        "application_hostname": "dev1.mobile.cleafy.com",
+        "@timestamp": "2021-04-27T13:52:07.276Z",
+        "creation_timestamp": "2021-04-27T13:52:07.276Z",
+        "last_modified_timestamp": "2021-04-27T13:52:07.276Z",
+        "name": "My New Rule",
+        "group": "groupC",
+        "description": "lorem ipsum lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet lorem ipsum sit amet",
+        "entity": "event",
+        "enabled": true,
+        "trigger": "ON_CREATE",
+        "preconditions": [
+          {
+            "field": "event.mods.geolocation.country.name",
+            "operation": "EQUAL",
+            "value": "Italy"
+          }
+        ],
+        "match_count": 0,
+        "preconditions_time": 0.0,
+        "invocation_count": 0,
+        "priority": 0,
+        "actions": [
+          {
+            "id": "5978d165-a50b-40bd-937d-48e348ca06c4",
+            "type": "webhook",
+            "execution_time": 0.0,
+            "execution_count": 0,
+            "url": "https://lol.com",
+            "method": "POST"
+          }
+        ]
+      },
+      {
+        "version": "4.12.0-10-bugfix_CI-3410-rules-entity-threat-trigger-on_create-doen-t-trigger-with-threats-created-via-api-966ec02a2",
+        "id": "a04a5820-e4cd-4547-aca4-e657eb251255",
+        "application_hostname": "dev1.mobile.cleafy.com",
+        "@timestamp": "2021-04-27T13:52:07.360Z",
+        "creation_timestamp": "2021-04-27T13:52:07.360Z",
+        "last_modified_timestamp": "2021-04-27T13:52:07.360Z",
+        "name": "Test a rule",
+        "group": "groupB",
+        "description": "Amet qui sint sint iste quis repudiandae et debitis consequatur Qui lorem qui deleniti dolorem alias velit",
+        "entity": "event",
+        "enabled": true,
+        "trigger": "ON_CREATE",
+        "preconditions": [
+          {
+            "field": "event.@timestamp",
+            "operation": "GT",
+            "value": "2021-03-17T10:33:02"
+          }
+        ],
+        "match_count": 0,
+        "preconditions_time": 0.0,
+        "invocation_count": 0,
+        "priority": 137,
+        "actions": [
+          {
+            "id": "ac6ed201-79bf-4b29-9255-d79670de2e25",
+            "type": "tagging",
+            "execution_time": 0.0,
+            "execution_count": 0,
+            "tags": [
+                "USER_UNUSUAL_PAYMENT_LOCATION",
+                "SESSION_CHANGED_IP",
+                "USER_SUSPICIOUS_LOCATION"
+            ]
+          }
+        ]
+      }
+    ]
+  matchers:
+    body:
+      - path: $[*].version
+        type: by_regex
+        value: '[a-zA-z0-9_\-\.]+'
+      - path: $[*].id
+        type: by_regex
+        predefined: uuid
+      - path: $[*].application_hostname
+        type: by_regex
+        predefined: non_blank
+      - path: $[*].@timestamp
+        type: by_regex
+        predefined: iso_8601_with_offset
+      - path: $[*].creation_timestamp
+        type: by_regex
+        predefined: iso_8601_with_offset
+      - path: $[*].last_modified_timestamp
+        type: by_regex
+        predefined: iso_8601_with_offset
+      - path: $[*].name
+        type: by_regex
+        predefined: only_alpha_unicode
+      - path: $[*].group
+        type: by_regex
+        predefined: only_alpha_unicode
+      - path: $[*].description
+        type: by_regex
+        predefined: only_alpha_unicode
+      - path: $[*].entity
+        type: by_regex
+        value: '(bankaccount|event|mobileapp|mobileappinst|payee|session|snippet|threat|webinject)'
+      - path: $[*].enabled
+        type: by_regex
+        predefined: any_boolean
+      - path: $[*].trigger
+        type: by_regex
+        value: '(ON_CREATE|ON_UPDATE|ON_CLOSE|ON_PROBE|ON_FLAG|ON_LOG|ON_THREAT)'
+      - path: $[*].preconditions.[*].field
+        type: by_regex
+        value: '[a-zA-z\.]+'
+      - path: $[*].preconditions.[*].operation
+        type: by_regex
+        value: '(LT|GT|LTE|GTE|EQUAL|NOT_EQUAL|MATCH|FIND|CONTAINS|CONTAINS_ONLY|NOT_CONTAINS|ALL_IN|NOT_ALL_IN|ANY_IN|NONE_IN|IN|NOT_IN)'
+      - path: $[*].preconditions.[*].value
+        type: by_regex
+        predefined: only_alpha_unicode
+      - path: $[*].match_count
+        type: by_regex
+        predefined: number
+      - path: $[*].preconditions_time
+        type: by_regex
+        predefined: number
+      - path: $[*].invocation_count
+        type: by_regex
+        predefined: number
+      - path: $[*].priority
+        type: by_regex
+        predefined: number
+      - path: $[*].actions.[*].type
+        type: by_regex
+        value: '(smtp|webhook|tagging|slack|syslog|create_threat)'
+
+      - path: $[0].actions.[0].id
+        type: by_regex
+        predefined: uuid
+      - path: $[0].actions.[0].execution_time
+        type: by_regex
+        predefined: number
+      - path: $[0].actions.[0].execution_count
+        type: by_regex
+        predefined: number
+      - path: $[0].actions.[0].url
+        type: by_regex
+        predefined: url
+      - path: $[0].actions.[0].method
+        type: by_regex
+        value: '(GET|POST|PUT|DELETE)'
+
+      - path: $[1].actions.[0].id
+        type: by_regex
+        predefined: uuid
+      - path: $[1].actions.[0].execution_time
+        type: by_regex
+        predefined: number
+      - path: $[1].actions.[0].execution_count
+        type: by_regex
+        predefined: number
+      - path: $[1].actions.[0].tags.[*]
+        type: by_regex
+        predefined: only_alpha_unicode
